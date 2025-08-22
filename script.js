@@ -1,84 +1,29 @@
 document.addEventListener("DOMContentLoaded", function() {
-  let sanity = 100;
-  let moves = 0;
-  let inventory = [];
   let currentRoom = "StartScreen";
   let isTyping = false;
-
-  // Inventory modal (optional)
-  document.getElementById("inventory-close").addEventListener("click", function() {
-    document.getElementById("inventory").style.display = "none";
-  });
-
-  function addItem(item) {
-    if (!inventory.some(i => i.name === item.name)) {
-      inventory.push(item);
-      renderInventory();
-    }
-  }
-  function renderInventory() {
-    const invDiv = document.getElementById("inventory-items");
-    invDiv.innerHTML = "";
-    inventory.forEach(item => {
-      const img = document.createElement("img");
-      img.src = item.img;
-      img.title = item.name;
-      invDiv.appendChild(img);
-    });
-  }
-
-  function typeText(element, text, speed = 25) {
-    isTyping = true;
-    element.innerHTML = "";
-    let i = 0;
-    function typeChar() {
-      if (i < text.length) {
-        element.innerHTML += text.charAt(i);
-        i++;
-        element.parentElement.scrollTop = element.parentElement.scrollHeight;
-        setTimeout(typeChar, speed);
-      } else {
-        isTyping = false;
-        showButtons();
-      }
-    }
-    typeChar();
-  }
-  function showButtons() {
-    const buttons = document.querySelectorAll("#choices button, #choices a");
-    buttons.forEach((button, index) => {
-      setTimeout(() => {
-        button.style.opacity = "1";
-      }, index * 180);
-    });
-  }
 
   // --- GAME DATA ---
   // Add 'sprite' and 'background' properties per room if you want scene/sprite changes!
   const rooms = {
     "StartScreen": {
-      speaker: "",
       text: "Welcome to Haunted Hotel Adventure.\n\nA stormy night, a long drive, and a hotel with a flickering neon sign. Will you check in?",
       choices: [{ text: "Start Game", next: "DriveIntro" }],
       background: "image1",
       sprite: "",
     },
     "DriveIntro": {
-      speaker: "",
-      text: "It's been a long drive and you're still a few hours away from the beach. You decide to pull into a nearby hotel. Looking up, you see the flickering light of the hotel name, half the letters burnt out.",
+      text: "It's been a long drive and you're still a few hours away from the beach. You pull into a nearby hotel. The flickering sign looms above.",
       choices: [{ text: "Enter hotel", next: "HotelLobby" }],
       background: "image1",
       sprite: "",
     },
     "HotelLobby": {
-      speaker: "Francis",
-      text: "There have been many parties here, even I have been to some.",
+      text: "You take a look around the dimly lit lobby. The atmosphere feels heavy and unsettling. Old portraits line the walls.",
       choices: [{ text: "Talk to the clerk", next: "ClerkInteraction" }],
       background: "image1",
       sprite: "ghost.png", // Provide your own ghost sprite PNG!
     },
     "ClerkInteraction": {
-      speaker: "Clerk",
       text: "The clerk slowly looks up, their smile lingering too long. 'Yes... we have one room available. Room 105,' they whisper.",
       choices: [
         { text: "Accept key", next: "AcceptKey" },
@@ -88,44 +33,108 @@ document.addEventListener("DOMContentLoaded", function() {
       sprite: "",
     },
     "AcceptKey": {
-      speaker: "Francis",
       text: "You take the key and feel its unnaturally cold metal against your palm.",
       choices: [{ text: "Go to hallway", next: "HallwayExplore" }],
       background: "image1",
       sprite: "ghost.png",
-      onEnter: () => {
-        addItem({ name: "Room 105 Key", img: "https://cdn-icons-png.flaticon.com/512/159/159604.png" });
-      }
     },
-    // ... Continue your rooms as before!
     "EndLeave": {
-      speaker: "",
       text: "You turn around, deciding this place is too creepy. You leave the hotel and drive away, the storm intensifying behind you. (Game Over)",
       choices: [{ text: "Restart", next: "StartScreen" }],
       background: "image1",
       sprite: "",
     },
-    // Add more rooms and logic as you wish!
+    "HallwayExplore": {
+      text: "You step into the dimly lit hallway. The carpet is worn and stained, and the wallpaper peels at the edges.",
+      choices: [{ text: "Continue down the hallway", next: "HallwayDeeper" }],
+      background: "image1",
+      sprite: "",
+    },
+    "HallwayDeeper": {
+      text: "The hallway seems to stretch on forever. Your legs feel like lead.",
+      choices: [{ text: "Approach Room 105", next: "Room105Approach" }],
+      background: "image1",
+      sprite: "",
+    },
+    "Room105Approach": {
+      text: "Finally, you see Room 105 ahead. Your body feels drained, as if something is pulling your very essence away.",
+      choices: [
+        { text: "Open Room 105", next: "Room105" },
+        { text: "Collapse in hallway", next: "Room105Faint" }
+      ],
+      background: "image1",
+      sprite: "ghost.png",
+    },
+    "Room105": {
+      text: "You unlock the door and step inside. The room is freezing, but strangely comforting.",
+      choices: [{ text: "Rest on bed", next: "Room105Home" }],
+      background: "image1",
+      sprite: "",
+    },
+    "Room105Faint": {
+      text: "The exhaustion overwhelms you. Darkness consumes your thoughts as you collapse.",
+      choices: [{ text: "Wake up", next: "Room105WakeUp" }],
+      background: "image1",
+      sprite: "",
+    },
+    "Room105WakeUp": {
+      text: "You slowly regain consciousness, finding yourself lying on the bed. How did you get here?",
+      choices: [{ text: "Try to sleep", next: "Room105Home" }],
+      background: "image1",
+      sprite: "",
+    },
+    "Room105Home": {
+      text: "You're in your room. The bed is comforting, though you feel a lingering unease.",
+      choices: [
+        { text: "Sleep to restore sanity", next: "SleepRestore" },
+        { text: "Leave room", next: "HallwayExplore" }
+      ],
+      background: "image1",
+      sprite: "",
+    },
+    "SleepRestore": {
+      text: "You sleep fitfully, haunted by strange dreams. When you wake, you feel somewhat restored.",
+      choices: [{ text: "Get up", next: "Room105Home" }],
+      background: "image1",
+      sprite: "",
+    }
+    // ... add more rooms as you wish!
   };
+
+  function typeText(element, text, speed = 22) {
+    isTyping = true;
+    element.innerHTML = "";
+    let i = 0;
+    function typeChar() {
+      if (i < text.length) {
+        element.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeChar, speed);
+      } else {
+        isTyping = false;
+        showButtons();
+      }
+    }
+    typeChar();
+  }
+
+  function showButtons() {
+    const buttons = document.querySelectorAll("#choices button, #choices a");
+    buttons.forEach((button, index) => {
+      setTimeout(() => {
+        button.style.opacity = "1";
+      }, index * 160);
+    });
+  }
 
   function renderRoom(roomName) {
     const room = rooms[roomName];
     currentRoom = roomName;
 
-    // Speaker name
-    const speakerNameDiv = document.getElementById("speaker-name");
-    if (room.speaker && room.speaker.length > 0) {
-      speakerNameDiv.innerText = room.speaker;
-      speakerNameDiv.style.display = "block";
-    } else {
-      speakerNameDiv.innerText = "";
-      speakerNameDiv.style.display = "none";
-    }
-
-    // Background image
+    // Set background image
     document.getElementById("background").style.backgroundImage = `url('${room.background || "image1"}')`;
 
-    // Sprite
+    // Set character sprite
     const spriteImg = document.getElementById("sprite");
     if (room.sprite && room.sprite.length > 0) {
       spriteImg.src = room.sprite;
@@ -134,18 +143,13 @@ document.addEventListener("DOMContentLoaded", function() {
       spriteImg.style.display = "none";
     }
 
-    // Inventory modal (optional, invoke elsewhere if needed)
-    // document.getElementById("inventory").style.display = inventory.length > 0 ? "block" : "none";
-
-    // Choices logic
-    if (room.onEnter) room.onEnter();
-
-    // Choices in VN textbox
-    const choicesDiv = document.getElementById("choices");
-    choicesDiv.innerHTML = "";
-
+    // Story
     const storyText = document.getElementById("story-text");
     typeText(storyText, room.text);
+
+    // Choices
+    const choicesDiv = document.getElementById("choices");
+    choicesDiv.innerHTML = "";
 
     if (room.choices) {
       room.choices.forEach(choice => {
@@ -154,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
         btn.onclick = () => {
           if (!isTyping) renderRoom(choice.next);
         };
+        btn.style.opacity = "0";
         choicesDiv.appendChild(btn);
       });
     }
