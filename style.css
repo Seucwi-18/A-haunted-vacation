@@ -3,8 +3,8 @@ body {
   padding: 0;
   background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   min-height: 100vh;
-  font-family: 'Georgia', serif;
-  color: #ffffff;
+  font-family: Georgia, serif;
+  color: #fff;
   background-attachment: fixed;
 }
 
@@ -17,11 +17,8 @@ body {
   max-width: 800px;
   height: 120px;
   background-color: rgba(0,0,0,0.3);
-  color: white;
   padding: 20px;
   border-radius: 10px;
-  font-family: Georgia, serif;
-  font-size: 16px;
   line-height: 1.5em;
   backdrop-filter: blur(5px);
   overflow-y: auto;
@@ -40,36 +37,26 @@ body {
   z-index: 10;
 }
 
-#choices button { 
-  display: block; 
-  margin: 5px auto; 
-  padding: 8px 16px; 
-  font-size: 14px; 
-  background-color: rgba(255,255,255,0.2); 
-  color: white; 
-  border: 2px solid rgba(255,255,255,0.4); 
-  border-radius: 5px; 
-  cursor: pointer; 
-  transition: all 0.3s ease; 
+#choices button {
+  display: block;
+  margin: 5px auto;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: rgba(255,255,255,0.2);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   max-width: 300px;
   opacity: 0;
   transform: translateY(10px);
   backdrop-filter: blur(3px);
-} 
+}
 
-#choices button.show { 
-  opacity: 1; 
-  transform: translateY(0); 
-} 
-
-#choices button:hover { 
-  background-color: rgba(255,255,255,0.2); 
-  border-color: rgba(255,255,255,0.5); 
-} 
-
-#choices button:disabled { 
-  opacity: 0.5; 
-  cursor: not-allowed; 
+#choices button.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #inventory-toggle {
@@ -88,32 +75,6 @@ body {
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
-  transition: all 0.3s ease;
-}
-
-#inventory-toggle:hover {
-  background-color: rgba(160, 82, 45, 0.9);
-  border-color: rgba(205, 133, 63, 0.8);
-}
-
-#inventory-toggle::after {
-  content: "My Bag";
-  position: absolute;
-  top: -35px;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 5px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-#inventory-toggle:hover::after {
-  opacity: 1;
 }
 
 #inventory {
@@ -123,22 +84,16 @@ body {
   transform: translate(-50%, -50%);
   width: 50%;
   height: 50%;
-  background-color: rgba(20, 20, 20, 0.95);
-  border: 2px solid rgba(139, 69, 19, 0.8);
+  background-color: rgba(20,20,20,0.95);
+  border: 2px solid rgba(139,69,19,0.8);
   border-radius: 10px;
   padding: 20px;
   display: none;
   overflow-y: auto;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
   z-index: 5;
 }
 
-#inventory h3 {
-  color: #f4e4bc;
-  margin-top: 0;
-  text-align: center;
-  font-family: 'Georgia', serif;
-}
+#inventory h3 { color:#f4e4bc; text-align:center; margin-top:0; }
 
 #inventory-items {
   display: flex;
@@ -155,10 +110,7 @@ body {
   transition: transform 0.2s ease;
 }
 
-#inventory-items img:hover {
-  transform: scale(1.1);
-  border-color: #cd853f;
-}
+#inventory-items img:hover { transform: scale(1.1); }
 
 #inventory-close {
   position: absolute;
@@ -169,33 +121,27 @@ body {
   color: #f4e4bc;
   font-size: 24px;
   cursor: pointer;
-  transition: color 0.3s ease;
 }
 
-#inventory-close:hover {
-  color: #cd853f;
-}
-
-#sanity-bar { 
-  position: fixed; 
-  top: 50%; 
-  right: 20px; 
-  transform: translateY(-50%); 
-  width: 12px; 
-  height: 200px; 
-  border: 2px solid rgba(139, 69, 19, 0.6); 
-  background-color: rgba(20, 20, 20, 0.7); 
+#sanity-bar {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 200px;
+  border: 2px solid rgba(139,69,19,0.6);
+  background-color: rgba(20,20,20,0.7);
   border-radius: 6px;
-  display: none; 
+  display: none;
   overflow: hidden;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #sanity-fill {
   width: 100%;
   height: 100%;
   background: linear-gradient(0deg, #8B0000 0%, #DC143C 30%, #FFD700 70%, #32CD32 100%);
-  transition: height 0.5s ease;
   position: absolute;
   bottom: 0;
+  transition: height 0.5s ease;
 }
