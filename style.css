@@ -1,19 +1,8 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-body {
-  width: 100vw;
-  height: 100vh;
-  font-family: 'Georgia', 'Times New Roman', serif;
-  color: #fff;
-  position: relative;
+body, html {
+  margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
+  font-family: 'Georgia', serif;
   background: #000;
 }
-
-/* Background image fills the screen */
 #background {
   position: fixed;
   left: 0; top: 0; width: 100vw; height: 100vh;
@@ -22,125 +11,85 @@ body {
   z-index: 0;
 }
 
-/* Sanity bar on the right, vertical, golden gradient */
+/* Sanity bar */
 #sanity-container {
   position: fixed;
-  top: 50%;
-  right: 2vw;
+  top: 50%; right: 3vw;
   transform: translateY(-50%);
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#sanity-bar {
-  width: 30px;
-  height: 220px;
-  background: #222;
-  border-radius: 16px;
-  border: 2px solid #FFD700;
-  box-shadow: 0 0 16px #FFD70090;
-  overflow: hidden;
-  position: relative;
-}
-
-#sanity-fill {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  background: linear-gradient(0deg, #FFD700 0%, #FFFACD 100%);
-  border-radius: 16px;
-  transition: height 0.5s;
-  height: 100%; /* will be updated by JS */
-}
-
-#sanity-text {
-  margin-top: 14px;
-  font-size: 1em;
-  color: #FFD700;
-  font-weight: bold;
-  text-shadow: 0 2px 6px #000c;
-  text-align: center;
-}
-
-/* Option buttons container above textbox */
-#option-buttons {
-  position: fixed;
-  left: 50%;
-  bottom: 22vh;
-  transform: translateX(-50%);
   z-index: 20;
+  display: flex; flex-direction: column; align-items: center;
+}
+#sanity-bar {
+  width: 24px; height: 180px; background: #222;
+  border-radius: 14px; border: 2px solid #FFD700;
+  box-shadow: 0 0 16px #FFD70080;
+  overflow: hidden; position: relative;
+}
+#sanity-fill {
+  width: 100%; position: absolute; bottom: 0;
+  background: linear-gradient(0deg, #FFD700 0%, #FFFACD 100%);
+  border-radius: 14px; transition: height 0.5s; height: 100%;
+}
+#sanity-text {
+  margin-top: 10px; font-size: 1em; color: #FFD700; font-weight: bold;
+  text-shadow: 0 2px 6px #000c; text-align: center;
+}
+
+/* Choices/buttons container above textbox */
+#choices-container {
+  position: fixed;
+  left: 50%; bottom: 18vh; transform: translateX(-50%);
+  z-index: 15;
   background: rgba(24, 20, 10, 0.90);
   border-radius: 16px;
   box-shadow: 0 0 22px 8px rgba(0,0,0,0.4);
-  padding: 18px 44px;
-  display: flex;
-  gap: 28px;
-  justify-content: center;
-  align-items: center;
+  padding: 10px 38px;
+  display: flex; gap: 18px;
+  justify-content: center; align-items: center;
 }
-
-#option-buttons button {
+#choices-container button {
   background: linear-gradient(90deg, #FFD700 60%, #FFFACD 100%);
-  color: #222;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 30px;
-  font-size: 1.08em;
-  font-family: inherit;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
+  color: #222; border: none; border-radius: 10px;
+  padding: 9px 20px; font-size: 1em; font-family: inherit; font-weight: bold;
+  cursor: pointer; box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
   transition: background 0.2s;
 }
-#option-buttons button:hover {
+#choices-container button:hover {
   background: linear-gradient(90deg, #FFFACD 60%, #FFD700 100%);
-  color: #222;
 }
 
-/* VN-style textbox at bottom (for inventory only) */
+/* VN-style textbox */
 #textbox {
   position: fixed;
-  left: 50%;
-  bottom: 4vh;
-  transform: translateX(-50%);
-  width: 54vw;
-  max-width: 700px;
-  min-height: 80px;
-  background: rgba(0,0,0,0.82);
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 0 38px 8px rgba(0,0,0,0.7);
+  left: 50%; bottom: 4vh; transform: translateX(-50%);
+  width: 62vw; max-width: 850px; min-height: 68px;
+  background: rgba(0,0,0,0.80);
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 0 28px 8px rgba(0,0,0,0.7);
   z-index: 10;
-  padding: 22px 38px 18px 38px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
+  padding: 18px 38px 18px 38px;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
 }
-
+#story-text {
+  font-size: 1.35em; color: #fff; text-shadow: 0 2px 6px #000c; line-height: 1.35;
+  margin-bottom: 8px;
+}
+#inventory-row {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 8px; width: 100%;
+}
 #inventory-title {
-  font-size: 1.2em;
-  color: #FFD700;
-  margin-bottom: 6px;
-  font-weight: bold;
-  letter-spacing: 1px;
+  font-size: 1.08em; color: #FFD700; font-weight: bold; letter-spacing: 1px;
 }
-
-#inventory-items {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
 #inventory-items img {
-  width: 46px;
-  height: 46px;
-  border: 2px solid #FFD700;
-  border-radius: 8px;
-  background: #222;
-  transition: transform 0.2s;
+  width: 30px; height: 30px; border: 2px solid #FFD700; border-radius: 6px;
+  background: #222; transition: transform 0.2s;
+  margin-right: 5px;
 }
-#inventory-items img:hover {
-  transform: scale(1.14);
+#inventory-items img:hover { transform: scale(1.14); }
+#save-btn, #load-btn {
+  background: linear-gradient(90deg, #FFD700 60%, #FFFACD 100%);
+  color: #222; border: none; border-radius: 7px; font-size: 0.95em; font-weight: bold;
+  padding: 6px 15px; margin-left: 8px; cursor: pointer; transition: background 0.2s;
 }
+#save-btn:hover, #load-btn:hover { background: linear-gradient(90deg, #FFFACD 60%, #FFD700 100%); }
