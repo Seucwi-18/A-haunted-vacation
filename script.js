@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
   let sanityBarVisible = false;
   let isTyping = false;
 
-  // Inventory toggle
   document.getElementById("inventory-toggle").addEventListener("click", function() {
     document.getElementById("inventory").style.display = "block";
   });
@@ -68,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function updateSanityBar() {
-    // Vertical bar: height from 0% (empty) to 100% (full)
     document.getElementById("sanity-fill").style.height = sanity + "%";
     document.getElementById("sanity-percent").innerText = Math.max(sanity, 0) + "%";
   }
@@ -109,24 +107,28 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 50);
   }
 
-  // Room flow
+  // Room flow with speaker names
   const rooms = {
     "StartScreen": {
+      speaker: "",
       text: "Welcome to Haunted Hotel Adventure.\n\nA stormy night, a long drive, and a hotel with a flickering neon sign. Will you check in?",
       choices: [{ text: "Start Game", next: "DriveIntro" }],
       onEnter: () => { hideSanityBar(); }
     },
     "DriveIntro": {
+      speaker: "",
       text: "It's been a long drive and you're still a few hours away from the beach. You decide to pull into a nearby hotel. Looking up, you see the flickering light of the hotel name, half the letters burnt out.",
       choices: [{ text: "Enter hotel", next: "HotelLobby" }],
       onEnter: () => { hideSanityBar(); }
     },
     "HotelLobby": {
+      speaker: "Narration",
       text: "You take a look around the dimly lit lobby. The atmosphere feels heavy and unsettling. Old portraits line the walls, their eyes seeming to follow you.",
       choices: [{ text: "Talk to the clerk", next: "ClerkInteraction" }],
       onEnter: () => { }
     },
     "ClerkInteraction": {
+      speaker: "Clerk",
       text: "The clerk slowly looks up, their smile lingering too long and their eyes never quite meeting yours. 'Yes... we have one room available. Room 105,' they whisper.",
       choices: [
         { text: "Accept key", next: "AcceptKey" },
@@ -135,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
       onEnter: () => { }
     },
     "AcceptKey": {
+      speaker: "Narration",
       text: "You take the key and feel its unnaturally cold metal against your palm, as if it had been sitting in ice. The clerk's smile widens unnervingly as you slip it into your bag.",
       choices: [{ text: "Go to hallway", next: "HallwayExplore" }],
       onEnter: () => {
@@ -142,11 +145,13 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     },
     "EndLeave": {
+      speaker: "",
       text: "You turn around, deciding this place is too creepy. You leave the hotel and drive away, the storm intensifying behind you. (Game Over)",
       choices: [{ text: "Restart", next: "StartScreen" }],
       onEnter: () => { hideSanityBar(); }
     },
     "HallwayExplore": {
+      speaker: "Narration",
       text: "You step into the dimly lit hallway. The carpet is worn and stained, and the wallpaper peels at the edges. Each step feels heavier than the last.",
       choices: [{ text: "Continue down the hallway", next: "HallwayDeeper" }],
       onEnter: () => {
@@ -157,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     },
     "HallwayDeeper": {
+      speaker: "Narration",
       text: "The hallway seems to stretch on forever. Your legs feel like lead, and the air grows thicker with each breath. The fluorescent lights flicker ominously above.",
       choices: [{ text: "Approach Room 105", next: "Room105Approach" }],
       onEnter: () => {
@@ -166,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     },
     "Room105Approach": {
+      speaker: "Narration",
       text: "Finally, you see Room 105 ahead. Your body feels drained, as if something is pulling your very essence away. The door stands before you, imposing and final.",
       choices: [
         {
@@ -184,11 +191,13 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     },
     "Room105": {
+      speaker: "Narration",
       text: "You unlock the door and step inside. The room is freezing, but strangely comforting. You feel as if something is watching you from the shadows.",
       choices: [{ text: "Rest on bed", next: "Room105Home" }],
       onEnter: () => { }
     },
     "Room105Faint": {
+      speaker: "Narration",
       text: "The exhaustion overwhelms you completely. Your vision blurs and darkness consumes your thoughts as you collapse to the floor, the key clattering beside you.",
       choices: [{ text: "Wake up", next: "Room105WakeUp" }],
       onEnter: () => {
@@ -200,11 +209,13 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     },
     "Room105WakeUp": {
+      speaker: "Narration",
       text: "You slowly regain consciousness, finding yourself lying on the bed. Your body feels drained and your mind clouded with confusion. How did you get here?",
       choices: [{ text: "Try to sleep", next: "Room105Home" }],
       onEnter: () => { }
     },
     "Room105Home": {
+      speaker: "Narration",
       text: "You're in your room. The bed is comforting, though you feel a lingering unease. You could rest here or venture out to explore.",
       choices: [
         { text: "Sleep to restore sanity", next: "SleepRestore" },
@@ -213,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function() {
       onEnter: () => { }
     },
     "SleepRestore": {
+      speaker: "Narration",
       text: "You sleep fitfully, haunted by strange dreams. When you wake, your sanity feels somewhat restored.",
       choices: [{ text: "Get up", next: "Room105Home" }],
       onEnter: () => {
@@ -222,12 +234,22 @@ document.addEventListener("DOMContentLoaded", function() {
         checkFaint();
       }
     }
-    // Add more rooms and choices as you expand!
+    // Expand rooms as you like!
   };
 
   function renderRoom(roomName) {
     const room = rooms[roomName];
     currentRoom = roomName;
+
+    // Speaker nameplate
+    const speakerNameDiv = document.getElementById("speaker-name");
+    if (room.speaker && room.speaker.length > 0) {
+      speakerNameDiv.innerText = room.speaker;
+      speakerNameDiv.style.display = "block";
+    } else {
+      speakerNameDiv.innerText = "";
+      speakerNameDiv.style.display = "none";
+    }
 
     // Show/hide inventory toggle
     if (inventory.length > 0 && !["StartScreen", "DriveIntro", "HotelLobby", "ClerkInteraction"].includes(currentRoom)) {
@@ -248,6 +270,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (room.onEnter) room.onEnter();
 
+    // Choices now inside textbox
     const choicesDiv = document.getElementById("choices");
     choicesDiv.innerHTML = "";
 
@@ -267,6 +290,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // Start game
   renderRoom(currentRoom);
 });
