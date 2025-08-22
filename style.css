@@ -1,12 +1,11 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Georgia', serif;
+  font-family: 'Segoe UI', 'Georgia', serif;
   color: #fff;
   background: #222;
   min-height: 100vh;
   overflow: hidden;
-  position: relative;
 }
 
 #background {
@@ -18,20 +17,21 @@ body {
   z-index: 0;
 }
 
+/* VN-style textbox */
 #textbox {
   position: fixed;
   left: 50%;
-  bottom: 40px;
+  bottom: 0;
   transform: translateX(-50%);
   width: 80vw;
   max-width: 900px;
-  min-height: 180px;
-  background: rgba(30, 30, 40, 0.84);
-  border-radius: 30px;
-  border: 3px solid #5f4a2c;
+  min-height: 190px;
+  background: rgba(30, 30, 40, 0.90);
+  border-radius: 36px 36px 0 0;
+  border: 2.5px solid #6a5a36;
   box-shadow: 0 8px 32px 0 rgba(0,0,0,0.42);
   z-index: 50;
-  padding: 32px 36px 28px 36px;
+  padding: 38px 40px 30px 40px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -39,13 +39,13 @@ body {
 
 #speaker-name {
   position: absolute;
-  top: -28px;
-  left: 44px;
-  font-size: 1.1em;
-  background: linear-gradient(90deg, #5f4a2c 60%, #8c7442 100%);
+  top: -36px;
+  left: 56px;
+  font-size: 1.16em;
+  background: linear-gradient(90deg, #705c34 60%, #a08655 100%);
   color: #fffbe7;
-  padding: 8px 24px;
-  border-radius: 16px 16px 0 0;
+  padding: 9px 29px;
+  border-radius: 18px 18px 0 0;
   font-weight: bold;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
   letter-spacing: 1px;
@@ -55,35 +55,37 @@ body {
 }
 
 #story-text {
-  font-size: 1.32em;
+  font-size: 1.35em;
   color: #fff;
   text-shadow: 0 2px 6px #000a;
-  margin-bottom: 18px;
-  min-height: 68px;
+  margin-bottom: 22px;
+  min-height: 72px;
+  line-height: 1.8;
 }
 
 #choices {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 17px;
   align-items: flex-start;
-  margin-top: 8px;
+  margin-top: 6px;
   z-index: 52;
+  width: 100%;
 }
 
 #choices button {
   background: linear-gradient(90deg, #6a5a36 70%, #9e874b 100%);
   color: #fffbe7;
   border: none;
-  border-radius: 12px;
-  padding: 12px 32px;
-  font-size: 1.07em;
+  border-radius: 16px;
+  padding: 13px 38px;
+  font-size: 1.09em;
   font-family: inherit;
   cursor: pointer;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.32s, transform 0.32s;
 }
 
 #choices button.show {
@@ -93,9 +95,9 @@ body {
 
 #inventory-toggle {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 100px;
+  top: 18px;
+  left: 32px;
+  width: 120px;
   height: 44px;
   background-color: rgba(139, 69, 19, 0.82);
   color: #f4e4bc;
@@ -161,9 +163,8 @@ body {
 
 #sanity-bar {
   position: fixed;
-  top: 50%;
-  right: 34px;
-  transform: translateY(-50%);
+  top: 18px;
+  right: 32px;
   width: 18px;
   height: 200px;
   border: 2px solid rgba(139,69,19,0.6);
@@ -186,8 +187,8 @@ body {
 
 #sanity-percent {
   position: fixed;
-  top: calc(50% + 110px);
-  right: 34px;
+  top: 220px;
+  right: 32px;
   color: #FFD580;
   font-weight: bold;
   text-align: center;
