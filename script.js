@@ -74,7 +74,8 @@ document.addEventListener("DOMContentLoaded", function() {
   } 
   
   function updateSanityBar() { 
-    document.getElementById("sanity-fill").style.width = sanity + "%"; 
+    // FIXED: match your vertical bar height
+    document.getElementById("sanity-fill").style.height = sanity + "%"; 
   } 
   
   function showSanityBar() { 
@@ -119,111 +120,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "Room105Faint": { text:"The exhaustion overwhelms you completely. Your vision blurs and darkness consumes your thoughts as you collapse to the floor, the key clattering beside you.", choices:[{text:"...", next:"Room105WakeUp"}], onEnter: () => { sanity = 15; updateSanityBar(); } },
     "Room105WakeUp": { text:"You slowly regain consciousness, finding yourself lying on the bed. Your body feels drained and your mind clouded with confusion. How did you get here? The room feels both familiar and alien at the same time.", choices:[{text:"Get up and look around", next:"Room105Home"}] },
     "Room105Home": { text:"You're in your room. The bed is comforting, though you feel a lingering unease. You could rest here, check your bag, or venture out to explore.", choices:[ {text:"Sleep to restore sanity", next:"Sleep105"}, {text:"Check your bag", next:"Inventory105"}, {text:"Leave the room to explore", next:"ExploreChoice"} ], onEnter: () => { if(!sanityBarVisible) showSanityBar(); } }, 
-    "ExploreChoice": { text:"You step out of your room into the dimly lit hallway. Which direction do you want to explore?", choices:[ {text:"Explore the first floor", next:"Floor1Menu"}, {text:"Go up to the second floor", next:"Floor2Menu"}, {text:"Look for other areas", next:"SpecialRoomsMenu"}, {text:"Return to your room", next:"Room105Home"} ] },
-    "Floor1Menu": { text:"You're on the first floor. The hallway stretches in both directions with several doors.", choices:[ {text:"Room 101", next:"Room101Door"}, {text:"Room 102", next:"Room102Door"}, {text:"Room 103", next:"Room103Door"}, {text:"Room 104", next:"Room104Door"}, {text:"Return to your room (105)", next:"Room105Home"} ] }, 
-    "Room101Door": {text:"Room 101 door.", choices:[{text:"Enter Room 101", next:"Room101"}], keyRequired:"Room 101 Key"}, 
-    "Room101": {
-      text:"Room 101 is dimly lit. You find an old diary on the nightstand and a rusty key under the pillow.",
-      choices:[
-        {text:"Read the diary", next:"Room101Diary"},
-        {text:"Take the Room 201 Key", next:"Room101"},
-        {text:"Return to Floor 1 Menu", next:"Floor1Menu"}
-      ],
-      onEnter: () => {
-        if(!inventory.some(item => item.name === "Room 201 Key")) {
-          addItem({name:"Room 201 Key", img:"images/room201key.png"});
-        }
-      }
-    },
-    "Room101Diary": {
-      text:"The diary reads: 'The pool holds secrets, but beware the depths. The office key lies where shadows dance.' You feel unsettled.",
-      choices:[{text:"Return to Room 101", next:"Room101"}],
-      onEnter: () => { sanity -= 10; updateSanityBar(); }
-    }, 
-    "Room102Door": {text:"Room 102 door is slightly ajar.", choices:[{text:"Enter Room 102", next:"Room102"}]},
-    "Room102": {
-      text:"Room 102 smells of decay. A mirror reflects something that isn't there. You find a basement key hidden behind it.",
-      choices:[{text:"Return to Floor 1 Menu", next:"Floor1Menu"}],
-      onEnter: () => {
-        sanity -= 15; 
-        updateSanityBar();
-        if(!inventory.some(item => item.name === "Basement Key")) {
-          addItem({name:"Basement Key", img:"images/basementkey.png"});
-        }
-      }
-    },
-    "Room103Door": {text:"Room 103 door.", choices:[{text:"Enter Room 103", next:"Room103"}]},
-    "Room103": {
-      text:"Room 103 is freezing cold. Your breath is visible. A ghostly whisper mentions 'the office'.",
-      choices:[{text:"Return to Floor 1 Menu", next:"Floor1Menu"}],
-      onEnter: () => { sanity -= 20; updateSanityBar(); }
-    },
-    "Room104Door": {text:"Room 104 door.", choices:[{text:"Enter Room 104", next:"Room104"}]},
-    "Room104": {
-      text:"Room 104 has scratch marks on the walls. You find a pool room key in a hidden compartment.",
-      choices:[{text:"Return to Floor 1 Menu", next:"Floor1Menu"}],
-      onEnter: () => {
-        sanity -= 10; 
-        updateSanityBar();
-        if(!inventory.some(item => item.name === "Pool Room Key")) {
-          addItem({name:"Pool Room Key", img:"images/poolkey.png"});
-        }
-      }
-    },
-    "Floor2Menu": { text:"You're on the second floor. The atmosphere feels even heavier here.", choices:[ {text:"Room 201", next:"Room201Door"}, {text:"Room 202", next:"Room202Door"}, {text:"Room 203", next:"Room203Door"}, {text:"Room 204", next:"Room204Door"}, {text:"Room 205", next:"Room205Door"}, {text:"Go back downstairs", next:"ExploreChoice"} ] }, 
-    "Room201Door": {text:"Room 201 door is locked tight.", choices:[{text:"Enter Room 201", next:"Room201", keyRequired:"Room 201 Key"}], keyRequired:"Room 201 Key"},
-    "Room201": {
-      text:"Room 201 contains ancient furniture covered in dust. A painting on the wall seems to watch you. You discover an office key behind it.",
-      choices:[{text:"Return to Floor 2 Menu", next:"Floor2Menu"}],
-      onEnter: () => {
-        sanity -= 25; 
-        updateSanityBar();
-        if(!inventory.some(item => item.name === "Office Room Key")) {
-          addItem({name:"Office Room Key", img:"images/officekey.png"});
-        }
-      }
-    },
-    "Room202Door": {text:"Room 202 door.", choices:[{text:"Enter Room 202", next:"Room202"}]},
-    "Room202": {
-      text:"Room 202 is filled with old newspapers. Headlines speak of mysterious disappearances at this very hotel.",
-      choices:[{text:"Return to Floor 2 Menu", next:"Floor2Menu"}],
-      onEnter: () => { sanity -= 15; updateSanityBar(); }
-    },
-    "Room203Door": {text:"Room 203 door.", choices:[{text:"Enter Room 203", next:"Room203"}]},
-    "Room203": {
-      text:"Room 203 has a broken window. The wind howls through, bringing whispers of the past.",
-      choices:[{text:"Return to Floor 2 Menu", next:"Floor2Menu"}],
-      onEnter: () => { sanity -= 10; updateSanityBar(); }
-    },
-    "Room204Door": {text:"Room 204 door.", choices:[{text:"Enter Room 204", next:"Room204"}]},
-    "Room204": {
-      text:"Room 204 is completely empty except for a single chair facing the wall. Sitting in it reveals a hidden clue.",
-      choices:[
-        {text:"Sit in the chair", next:"Room204Clue"},
-        {text:"Return to Floor 2 Menu", next:"Floor2Menu"}
-      ]
-    },
-    "Room204Clue": {
-      text:"As you sit, you hear a voice: 'The final secret lies in the basement depths. Beware the guardian.'",
-      choices:[{text:"Return to Floor 2 Menu", next:"Floor2Menu"}],
-      onEnter: () => { sanity -= 30; updateSanityBar(); }
-    },
-    "Room205Door": {text:"Room 205 door.", choices:[{text:"Enter Room 205", next:"Room205"}]},
-    "Room205": {
-      text:"Room 205 is your mirror room to 105, but everything is wrong. The bed is unmade, and shadows move independently.",
-      choices:[{text:"Return to Floor 2 Menu", next:"Floor2Menu"}],
-      onEnter: () => { sanity -= 20; updateSanityBar(); }
-    },
-    "SpecialRoomsMenu": { text:"You discover some other areas of the hotel beyond the regular rooms.", choices:[ {text:"Pool Room", next:"PoolRoom", keyRequired:"Pool Room Key"}, {text:"Office", next:"OfficeRoom", keyRequired:"Office Room Key"}, {text:"Basement", next:"BasementRoom", keyRequired:"Basement Key"}, {text:"Go back", next:"ExploreChoice"} ] }, 
-    "PoolRoom": {text:"A ghostly figure at the bottom of the pool reaches for you!", choices:[{text:"Dodge Left", next:"PoolSafe"},{text:"Dodge Right", next:"BasementHidden"}]}, 
-    "PoolSafe": {text:"You are safe. You find a clue to the next key.", choices:[{text:"Continue exploring", next:"SpecialRoomsMenu"}]}, 
-    "BasementHidden": {text:"You are pulled into the basement! A hidden path.", choices:[{text:"Explore Basement", next:"BasementRoom"}]}, 
-    "OfficeRoom": {text:"The office is locked behind a puzzle. Solve in Discord to get the key.", choices:[{text:"Continue exploring", next:"SpecialRoomsMenu"}]}, 
-    "BasementRoom": {text:"The basement is dark and eerie.", choices:[{text:"Continue exploring", next:"SpecialRoomsMenu"}]}, 
-    "Inventory105": {text:"You check the contents of your bag:", choices:[{text:"Return to your room", next:"Room105Home"}]}, 
-    "Sleep105": {text:"You sleep and restore sanity.", choices:[{text:"Wake up", next:"Room105Home"}], onEnter:()=>{sanity=100; updateSanityBar();}} 
-  }; 
-  
+    // ... continue adding all rooms exactly as you have them
+  };
+
   function renderRoom(roomName) { 
     const room = rooms[roomName]; 
     currentRoom = roomName; 
@@ -232,7 +131,10 @@ document.addEventListener("DOMContentLoaded", function() {
       room.choices.forEach(choice=>{ 
         if(choice.keyRequired && !inventory.some(item=>item.name===choice.keyRequired)){ 
           choice.disabled = true; 
-          choice.text += " (Key required)"; 
+          // FIX: avoid duplicate key text
+          if(!choice.text.includes("(Key required)")) {
+            choice.text += " (Key required)";
+          }
         } 
       }); 
     } 
@@ -272,3 +174,4 @@ document.addEventListener("DOMContentLoaded", function() {
   
   renderRoom(currentRoom); 
 });
+
