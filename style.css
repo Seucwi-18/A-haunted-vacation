@@ -22,13 +22,13 @@ body {
   z-index: 0;
 }
 
-/* Character sprite, right side, vertically centered */
+/* Character sprite, right side, vertically centered, smaller */
 #sprite {
   position: absolute;
-  right: 4vw;
-  bottom: 12vh;
-  max-height: 76vh;
-  max-width: 36vw;
+  right: 7vw;
+  bottom: 14vh;
+  max-height: 48vh;
+  max-width: 22vw;
   z-index: 2;
   pointer-events: none;
 }
@@ -37,54 +37,45 @@ body {
 #textbox {
   position: fixed;
   left: 50%;
-  bottom: 7vh;
+  bottom: 5vh;
   transform: translateX(-50%);
-  width: 91vw;
-  max-width: 1400px;
-  min-height: 120px;
-  background: rgba(0,0,0,0.85);
-  border-radius: 0 0 22px 22px;
-  box-shadow: 0 0 38px 8px rgba(0,0,0,0.7);
+  width: 60vw;
+  max-width: 800px;
+  min-height: 70px;
+  background: rgba(0,0,0,0.8);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 0 28px 8px rgba(0,0,0,0.7);
   z-index: 10;
-  padding: 22px 48px 32px 48px;
+  padding: 16px 32px 18px 32px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
-#speaker-name {
-  font-size: 2.3em;
-  color: #e68a00;
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-weight: normal;
-  margin-bottom: 4px;
-  letter-spacing: 1px;
-}
-
+/* Just story text, no speaker name */
 #story-text {
-  font-size: 2em;
+  font-size: 1.4em;
   font-family: 'Georgia', 'Times New Roman', serif;
   color: #fff;
   text-shadow: 0 2px 6px #000c;
-  margin-bottom: 0;
   line-height: 1.35;
-  margin-left: 3px;
+  margin-bottom: 0;
 }
 
 /* Choices (rendered as links/buttons) */
 #choices {
-  margin-top: 18px;
+  margin-top: 12px;
   display: flex;
-  gap: 18px;
+  gap: 14px;
 }
 #choices button, #choices a {
   background: none;
   border: none;
   color: #e68a00;
-  font-size: 1.18em;
+  font-size: 1.08em;
   font-family: inherit;
   cursor: pointer;
-  padding: 0 22px;
+  padding: 0 18px;
   text-decoration: underline;
   opacity: 0.85;
   transition: color 0.2s;
@@ -94,69 +85,24 @@ body {
 /* Navigation bar */
 #nav-bar {
   position: fixed;
-  bottom: 1.2vh;
+  bottom: 0.3vh;
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   text-align: center;
   z-index: 15;
   font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 1.12em;
+  font-size: 1.02em;
   color: #eee;
   opacity: 0.85;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.1px;
 }
 
 #nav-bar span {
-  margin: 0 18px;
+  margin: 0 13px;
   cursor: pointer;
   transition: color 0.2s;
 }
 #nav-bar span:hover {
   color: #e68a00;
-}
-
-/* Inventory modal (optional) */
-#inventory {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 340px;
-  min-height: 220px;
-  background-color: rgba(20,20,20,0.97);
-  border: 2px solid rgba(139,69,19,0.8);
-  border-radius: 10px;
-  padding: 20px;
-  display: none;
-  overflow-y: auto;
-  z-index: 200;
-  box-shadow: 0 0 18px #000;
-}
-#inventory h3 { color:#f4e4bc; text-align:center; margin-top:0; }
-#inventory-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-#inventory-items img {
-  width: 60px;
-  height: 60px;
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  transition: transform 0.2s ease;
-  background: #222;
-}
-#inventory-items img:hover { transform: scale(1.1); }
-#inventory-close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: #f4e4bc;
-  font-size: 24px;
-  cursor: pointer;
 }
