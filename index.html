@@ -1,43 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Haunted Hotel Adventure</title>
-<style>
-  body { font-family: Arial, sans-serif; background:#111; color:#f5f5f5; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; }
-  #story-container { max-width:800px; margin-top:30px; padding:20px; background:#222; border-radius:10px; box-shadow:0 0 10px #000; height:300px; overflow-y:auto; }
-  #choices { margin-top:20px; display:flex; flex-direction:column; gap:10px; }
-  #choices button { padding:10px 20px; border:none; border-radius:5px; background:#555; color:#fff; cursor:pointer; opacity:0; transition: opacity 0.3s; }
-  #choices button.show { opacity:1; }
-  #inventory-toggle { position:fixed; top:20px; right:20px; padding:10px; background:#444; border-radius:5px; cursor:pointer; display:none; color:#fff; }
-  #inventory { position:fixed; top:50px; right:20px; background:#333; padding:10px; border-radius:10px; display:none; max-width:200px; max-height:300px; overflow-y:auto; }
-  #inventory img { width:50px; height:50px; margin:5px; border-radius:5px; }
-  #inventory-close { display:block; margin-top:10px; padding:5px 10px; background:#555; color:#fff; cursor:pointer; border-radius:5px; text-align:center; }
-  #sanity-bar { width: 300px; height:25px; background:#333; border-radius:10px; margin-top:20px; display:none; overflow:hidden; }
-  #sanity-fill { height:100%; width:100%; background:linear-gradient(to right, #FFD580, #FFC107); border-radius:10px; transition: width 0.3s; }
-  #sanity-percent { margin-top:5px; text-align:center; color:#FFD580; font-weight:bold; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haunted Hotel Adventure</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="inventory-toggle">Inventory</div>
+  <div id="inventory">
+    <h3>Inventory</h3>
+    <div id="inventory-items"></div>
+    <button id="inventory-close">&times;</button>
+  </div>
 
-<div id="inventory-toggle">Inventory</div>
-<div id="inventory">
-  <div id="inventory-items"></div>
-  <div id="inventory-close">Close</div>
-</div>
+  <div id="story-container">
+    <div id="story-text"></div>
+  </div>
 
-<div id="story-container">
-  <div id="story-text"></div>
-</div>
+  <div id="choices"></div>
 
-<div id="choices"></div>
+  <div id="sanity-bar">
+    <div id="sanity-fill"></div>
+  </div>
+  <div id="sanity-percent">100%</div>
 
-<div id="sanity-bar">
-  <div id="sanity-fill"></div>
-</div>
-<div id="sanity-percent">100%</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
