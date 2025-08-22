@@ -1,4 +1,4 @@
-/* Text box at bottom */
+/* Bottom text box */
 #text-box {
   position: fixed;
   bottom: 20px;
@@ -24,7 +24,7 @@
   font-size: 16px;
 }
 
-/* Inventory display */
+/* Inventory images */
 #inventory img {
   width: 50px;
   height: 50px;
