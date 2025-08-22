@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="background"></div>
+
   <div id="inventory-toggle">Inventory</div>
   <div id="inventory">
     <h3>Inventory</h3>
@@ -14,16 +16,17 @@
     <button id="inventory-close">&times;</button>
   </div>
 
-  <div id="story-container">
-    <div id="story-text"></div>
-  </div>
-
-  <div id="choices"></div>
-
   <div id="sanity-bar">
     <div id="sanity-fill"></div>
   </div>
   <div id="sanity-percent">100%</div>
+
+  <!-- NEW: VN-style textbox at bottom -->
+  <div id="textbox">
+    <div id="speaker-name"></div>
+    <div id="story-text"></div>
+    <div id="choices"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
