@@ -31,8 +31,6 @@ body {
   max-width: 36vw;
   z-index: 2;
   pointer-events: none;
-  /* Demo: Use ghost.png. Replace with your sprite PNG! */
-  /* For now, if you don't have a PNG yet, you can crop it from the screenshot, or leave it transparent */
 }
 
 /* VN-style textbox */
@@ -73,6 +71,26 @@ body {
   margin-left: 3px;
 }
 
+/* Choices (rendered as links/buttons) */
+#choices {
+  margin-top: 18px;
+  display: flex;
+  gap: 18px;
+}
+#choices button, #choices a {
+  background: none;
+  border: none;
+  color: #e68a00;
+  font-size: 1.18em;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0 22px;
+  text-decoration: underline;
+  opacity: 0.85;
+  transition: color 0.2s;
+}
+#choices button:hover, #choices a:hover { color: #fffbe7; }
+
 /* Navigation bar */
 #nav-bar {
   position: fixed;
@@ -98,5 +116,47 @@ body {
   color: #e68a00;
 }
 
-/* Hide scrollbars everywhere */
-::-webkit-scrollbar { display: none; }
+/* Inventory modal (optional) */
+#inventory {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  min-height: 220px;
+  background-color: rgba(20,20,20,0.97);
+  border: 2px solid rgba(139,69,19,0.8);
+  border-radius: 10px;
+  padding: 20px;
+  display: none;
+  overflow-y: auto;
+  z-index: 200;
+  box-shadow: 0 0 18px #000;
+}
+#inventory h3 { color:#f4e4bc; text-align:center; margin-top:0; }
+#inventory-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+#inventory-items img {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+  background: #222;
+}
+#inventory-items img:hover { transform: scale(1.1); }
+#inventory-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #f4e4bc;
+  font-size: 24px;
+  cursor: pointer;
+}
