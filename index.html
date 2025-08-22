@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Haunted Hotel VN Demo</title>
+  <title>Haunted Hotel Adventure</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Full background image -->
   <div id="background"></div>
-  <!-- Character sprite (ghost) -->
-  <img id="sprite" src="ghost.png" alt="Ghost Sprite">
+  <!-- Character sprite (if any) -->
+  <img id="sprite" alt="Character Sprite" style="display:none;">
 
-  <!-- VN textbox -->
+  <!-- VN-style textbox at bottom -->
   <div id="textbox">
-    <div id="speaker-name">Francis</div>
-    <div id="story-text">There have been many parties here, even I have been to some.</div>
+    <div id="speaker-name"></div>
+    <div id="story-text"></div>
+    <div id="choices"></div>
   </div>
   
   <!-- Navigation bar -->
@@ -28,6 +29,13 @@
     <span>Q.Save</span>
     <span>Q.Load</span>
     <span>Options</span>
+  </div>
+
+  <!-- Inventory modal (only if you want it) -->
+  <div id="inventory" style="display:none;">
+    <h3>Inventory</h3>
+    <div id="inventory-items"></div>
+    <button id="inventory-close">&times;</button>
   </div>
 
   <script src="script.js"></script>
