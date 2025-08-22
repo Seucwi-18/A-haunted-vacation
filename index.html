@@ -8,24 +8,27 @@
 </head>
 <body>
   <div id="background"></div>
-  <img id="sprite" alt="Ghost Sprite" style="display:none;">
+  
+  <!-- Sanity bar -->
+  <div id="sanity-container">
+    <div id="sanity-bar">
+      <div id="sanity-fill"></div>
+    </div>
+    <div id="sanity-text"></div>
+  </div>
 
+  <!-- Option buttons container above textbox -->
+  <div id="option-buttons">
+    <button id="save-btn">Save Game</button>
+    <button id="load-btn">Load Game</button>
+  </div>
+
+  <!-- Bottom textbox for inventory and save/load -->
   <div id="textbox">
-    <div id="story-text"></div>
-    <div id="choices"></div>
+    <div id="inventory-title">Inventory</div>
+    <div id="inventory-items"></div>
   </div>
   
-  <div id="nav-bar">
-    <span>Back</span>
-    <span>History</span>
-    <span>Skip</span>
-    <span>Auto</span>
-    <span>Save</span>
-    <span>Q.Save</span>
-    <span>Q.Load</span>
-    <span>Options</span>
-  </div>
-
   <script src="script.js"></script>
 </body>
 </html>
