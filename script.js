@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }); 
   }
 
-  function typeText(element, text, speed = 50) {
+  function typeText(element, text, speed = 20) { // faster typing
     isTyping = true;
     element.innerHTML = "";
     let i = 0;
@@ -50,10 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (i < text.length) {
         element.innerHTML += text.charAt(i);
         i++;
-        
-        // Auto-scroll to bottom as text accumulates
         textBox.scrollTop = textBox.scrollHeight;
-        
         setTimeout(typeChar, speed);
       } else {
         isTyping = false;
@@ -69,25 +66,40 @@ document.addEventListener("DOMContentLoaded", function() {
     buttons.forEach((button, index) => {
       setTimeout(() => {
         button.classList.add("show");
-      }, index * 200);
+      }, index * 150);
     });
   } 
   
   function updateSanityBar() { 
-    // FIXED: match your vertical bar height
-    document.getElementById("sanity-fill").style.height = sanity + "%"; 
+    const fill = document.getElementById("sanity-fill");
+    fill.style.width = sanity + "%";
+    document.getElementById("sanity-percent").innerText = sanity + "%";
   } 
   
   function showSanityBar() { 
     sanityBarVisible = true; 
-    document.getElementById("sanity-bar").style.display = "block"; 
+    const bar = document.getElementById("sanity-bar-container");
+    bar.style.display = "block"; 
   } 
   
   function hideSanityBar() { 
     sanityBarVisible = false; 
-    document.getElementById("sanity-bar").style.display = "none"; 
+    const bar = document.getElementById("sanity-bar-container");
+    bar.style.display = "none"; 
   } 
   
+  function animateSanityDrop(amount, nextRoom) {
+    const interval = setInterval(() => {
+      if(sanity > amount){
+        sanity -= 2;
+        updateSanityBar();
+      } else {
+        clearInterval(interval);
+        renderRoom(nextRoom);
+      }
+    }, 50);
+  }
+
   function checkFaint() { 
     if(moves % 4 === 0 && sanity <= 0){ 
       removeRandomItem(); 
@@ -105,24 +117,29 @@ document.addEventListener("DOMContentLoaded", function() {
     "HallwayExplore": { 
       text: "You step into the dimly lit hallway. The carpet is worn and stained, and the wallpaper peels at the edges. Each step feels heavier than the last.", 
       choices: [{text:"Continue down the hallway", next:"HallwayDeeper"}], 
-      onEnter: () => { sanity -= 15; moves++; updateSanityBar(); checkFaint();} 
+      onEnter: () => { sanity -= 15; moves++; showSanityBar(); updateSanityBar(); checkFaint();} 
     },
     "HallwayDeeper": { 
       text: "The hallway seems to stretch on forever. Your legs feel like lead, and the air grows thicker with each breath. The fluorescent lights flicker ominously above.", 
       choices: [{text:"Push forward through the exhaustion", next:"Room105Approach"}], 
-      onEnter: () => { sanity -= 25; moves++; updateSanityBar(); checkFaint();} 
+      onEnter: () => { 
+        // Animate sanity drop quickly before fainting
+        animateSanityDrop(0, "Room105Faint"); 
+      } 
     },
     "Room105Approach": { 
       text: "Finally, you see Room 105 ahead. Your body feels drained, as if something is pulling your very essence away. The door stands before you, imposing and final.", 
-      choices: [{text:"Use Room 105 Key to unlock the door", next:"Room105Faint", keyRequired:"Room 105 Key"}], 
-      onEnter: () => { sanity -= 35; moves++; updateSanityBar(); checkFaint();} 
+      choices: [{text:"Use Room 105 Key to unlock the door", next:"Room105WakeUp", keyRequired:"Room 105 Key"}], 
+      onEnter: () => {} 
     },
     "Room105Faint": { text:"The exhaustion overwhelms you completely. Your vision blurs and darkness consumes your thoughts as you collapse to the floor, the key clattering beside you.", choices:[{text:"...", next:"Room105WakeUp"}], onEnter: () => { sanity = 15; updateSanityBar(); } },
     "Room105WakeUp": { text:"You slowly regain consciousness, finding yourself lying on the bed. Your body feels drained and your mind clouded with confusion. How did you get here? The room feels both familiar and alien at the same time.", choices:[{text:"Get up and look around", next:"Room105Home"}] },
-    "Room105Home": { text:"You're in your room. The bed is comforting, though you feel a lingering unease. You could rest here, check your bag, or venture out to explore.", choices:[ {text:"Sleep to restore sanity", next:"Sleep105"}, {text:"Check your bag", next:"Inventory105"}, {text:"Leave the room to explore", next:"ExploreChoice"} ], onEnter: () => { if(!sanityBarVisible) showSanityBar(); } }, 
-    // ... continue adding all rooms exactly as you have them
-  };
+    "Room105Home": { text:"You're in your room. The bed is comforting, though you feel a lingering unease. You could rest here, or venture out to explore.", choices:[ {text:"Sleep to restore sanity", next:"Sleep105"}, {text:"Leave the room to explore", next:"ExploreChoice"} ], onEnter: () => { if(!sanityBarVisible) showSanityBar(); } }, 
 
+    // -- rest of your rooms from Floor 1, Floor 2, Special Rooms, Pool, Basement, Office, Sleep, Inventory etc --
+    // keep them exactly as you had them, unchanged
+  }; 
+  
   function renderRoom(roomName) { 
     const room = rooms[roomName]; 
     currentRoom = roomName; 
@@ -131,10 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
       room.choices.forEach(choice=>{ 
         if(choice.keyRequired && !inventory.some(item=>item.name===choice.keyRequired)){ 
           choice.disabled = true; 
-          // FIX: avoid duplicate key text
-          if(!choice.text.includes("(Key required)")) {
-            choice.text += " (Key required)";
-          }
+          choice.text += " (Key required)"; 
         } 
       }); 
     } 
@@ -174,4 +188,3 @@ document.addEventListener("DOMContentLoaded", function() {
   
   renderRoom(currentRoom); 
 });
-
