@@ -3,12 +3,9 @@ document.addEventListener("DOMContentLoaded", function() {
   let moves = 0;
   let inventory = [];
   let currentRoom = "StartScreen";
-  let sanityBarVisible = false;
   let isTyping = false;
 
-  document.getElementById("inventory-toggle").addEventListener("click", function() {
-    document.getElementById("inventory").style.display = "block";
-  });
+  // Inventory modal (optional)
   document.getElementById("inventory-close").addEventListener("click", function() {
     document.getElementById("inventory").style.display = "none";
   });
@@ -19,15 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
       renderInventory();
     }
   }
-
-  function removeRandomItem() {
-    if (inventory.length === 0) return;
-    const index = Math.floor(Math.random() * inventory.length);
-    const removed = inventory.splice(index, 1)[0];
-    alert(`You fainted and lost ${removed.name}!`);
-    renderInventory();
-  }
-
   function renderInventory() {
     const invDiv = document.getElementById("inventory-items");
     invDiv.innerHTML = "";
@@ -56,192 +44,75 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     typeChar();
   }
-
   function showButtons() {
-    const buttons = document.querySelectorAll("#choices button");
+    const buttons = document.querySelectorAll("#choices button, #choices a");
     buttons.forEach((button, index) => {
       setTimeout(() => {
-        button.classList.add("show");
-      }, index * 200);
+        button.style.opacity = "1";
+      }, index * 180);
     });
   }
 
-  function updateSanityBar() {
-    document.getElementById("sanity-fill").style.height = sanity + "%";
-    document.getElementById("sanity-percent").innerText = Math.max(sanity, 0) + "%";
-  }
-
-  function showSanityBar() {
-    if (!sanityBarVisible) {
-      sanityBarVisible = true;
-      document.getElementById("sanity-bar").style.display = "block";
-      document.getElementById("sanity-percent").style.display = "block";
-    }
-  }
-
-  function hideSanityBar() {
-    sanityBarVisible = false;
-    document.getElementById("sanity-bar").style.display = "none";
-    document.getElementById("sanity-percent").style.display = "none";
-  }
-
-  function checkFaint() {
-    if (moves % 4 === 0 && sanity <= 0) {
-      removeRandomItem();
-      sanity = 25;
-      updateSanityBar();
-    }
-  }
-
-  function animateSanityDrop(amount) {
-    let start = sanity;
-    let target = Math.max(sanity - amount, 0);
-    let step = (start - target) / 10;
-    let count = 0;
-    const interval = setInterval(() => {
-      sanity -= step;
-      if (sanity < 0) sanity = 0;
-      updateSanityBar();
-      count++;
-      if (count >= 10) clearInterval(interval);
-    }, 50);
-  }
-
-  // Room flow with speaker names
+  // --- GAME DATA ---
+  // Add 'sprite' and 'background' properties per room if you want scene/sprite changes!
   const rooms = {
     "StartScreen": {
       speaker: "",
       text: "Welcome to Haunted Hotel Adventure.\n\nA stormy night, a long drive, and a hotel with a flickering neon sign. Will you check in?",
       choices: [{ text: "Start Game", next: "DriveIntro" }],
-      onEnter: () => { hideSanityBar(); }
+      background: "image1",
+      sprite: "",
     },
     "DriveIntro": {
       speaker: "",
       text: "It's been a long drive and you're still a few hours away from the beach. You decide to pull into a nearby hotel. Looking up, you see the flickering light of the hotel name, half the letters burnt out.",
       choices: [{ text: "Enter hotel", next: "HotelLobby" }],
-      onEnter: () => { hideSanityBar(); }
+      background: "image1",
+      sprite: "",
     },
     "HotelLobby": {
-      speaker: "Narration",
-      text: "You take a look around the dimly lit lobby. The atmosphere feels heavy and unsettling. Old portraits line the walls, their eyes seeming to follow you.",
+      speaker: "Francis",
+      text: "There have been many parties here, even I have been to some.",
       choices: [{ text: "Talk to the clerk", next: "ClerkInteraction" }],
-      onEnter: () => { }
+      background: "image1",
+      sprite: "ghost.png", // Provide your own ghost sprite PNG!
     },
     "ClerkInteraction": {
       speaker: "Clerk",
-      text: "The clerk slowly looks up, their smile lingering too long and their eyes never quite meeting yours. 'Yes... we have one room available. Room 105,' they whisper.",
+      text: "The clerk slowly looks up, their smile lingering too long. 'Yes... we have one room available. Room 105,' they whisper.",
       choices: [
         { text: "Accept key", next: "AcceptKey" },
         { text: "Refuse and leave", next: "EndLeave" }
       ],
-      onEnter: () => { }
+      background: "image1",
+      sprite: "",
     },
     "AcceptKey": {
-      speaker: "Narration",
-      text: "You take the key and feel its unnaturally cold metal against your palm, as if it had been sitting in ice. The clerk's smile widens unnervingly as you slip it into your bag.",
+      speaker: "Francis",
+      text: "You take the key and feel its unnaturally cold metal against your palm.",
       choices: [{ text: "Go to hallway", next: "HallwayExplore" }],
+      background: "image1",
+      sprite: "ghost.png",
       onEnter: () => {
         addItem({ name: "Room 105 Key", img: "https://cdn-icons-png.flaticon.com/512/159/159604.png" });
       }
     },
+    // ... Continue your rooms as before!
     "EndLeave": {
       speaker: "",
       text: "You turn around, deciding this place is too creepy. You leave the hotel and drive away, the storm intensifying behind you. (Game Over)",
       choices: [{ text: "Restart", next: "StartScreen" }],
-      onEnter: () => { hideSanityBar(); }
+      background: "image1",
+      sprite: "",
     },
-    "HallwayExplore": {
-      speaker: "Narration",
-      text: "You step into the dimly lit hallway. The carpet is worn and stained, and the wallpaper peels at the edges. Each step feels heavier than the last.",
-      choices: [{ text: "Continue down the hallway", next: "HallwayDeeper" }],
-      onEnter: () => {
-        showSanityBar();
-        animateSanityDrop(35);
-        moves++;
-        checkFaint();
-      }
-    },
-    "HallwayDeeper": {
-      speaker: "Narration",
-      text: "The hallway seems to stretch on forever. Your legs feel like lead, and the air grows thicker with each breath. The fluorescent lights flicker ominously above.",
-      choices: [{ text: "Approach Room 105", next: "Room105Approach" }],
-      onEnter: () => {
-        animateSanityDrop(15);
-        moves++;
-        checkFaint();
-      }
-    },
-    "Room105Approach": {
-      speaker: "Narration",
-      text: "Finally, you see Room 105 ahead. Your body feels drained, as if something is pulling your very essence away. The door stands before you, imposing and final.",
-      choices: [
-        {
-          text: "Open Room 105",
-          next: "Room105",
-          keyRequired: "Room 105 Key"
-        },
-        {
-          text: "Collapse in hallway",
-          next: "Room105Faint"
-        }
-      ],
-      onEnter: () => {
-        moves++;
-        checkFaint();
-      }
-    },
-    "Room105": {
-      speaker: "Narration",
-      text: "You unlock the door and step inside. The room is freezing, but strangely comforting. You feel as if something is watching you from the shadows.",
-      choices: [{ text: "Rest on bed", next: "Room105Home" }],
-      onEnter: () => { }
-    },
-    "Room105Faint": {
-      speaker: "Narration",
-      text: "The exhaustion overwhelms you completely. Your vision blurs and darkness consumes your thoughts as you collapse to the floor, the key clattering beside you.",
-      choices: [{ text: "Wake up", next: "Room105WakeUp" }],
-      onEnter: () => {
-        animateSanityDrop(20);
-        sanity = 0;
-        updateSanityBar();
-        moves++;
-        checkFaint();
-      }
-    },
-    "Room105WakeUp": {
-      speaker: "Narration",
-      text: "You slowly regain consciousness, finding yourself lying on the bed. Your body feels drained and your mind clouded with confusion. How did you get here?",
-      choices: [{ text: "Try to sleep", next: "Room105Home" }],
-      onEnter: () => { }
-    },
-    "Room105Home": {
-      speaker: "Narration",
-      text: "You're in your room. The bed is comforting, though you feel a lingering unease. You could rest here or venture out to explore.",
-      choices: [
-        { text: "Sleep to restore sanity", next: "SleepRestore" },
-        { text: "Leave room", next: "HallwayExplore" }
-      ],
-      onEnter: () => { }
-    },
-    "SleepRestore": {
-      speaker: "Narration",
-      text: "You sleep fitfully, haunted by strange dreams. When you wake, your sanity feels somewhat restored.",
-      choices: [{ text: "Get up", next: "Room105Home" }],
-      onEnter: () => {
-        sanity = Math.min(sanity + 30, 100);
-        updateSanityBar();
-        moves++;
-        checkFaint();
-      }
-    }
-    // Expand rooms as you like!
+    // Add more rooms and logic as you wish!
   };
 
   function renderRoom(roomName) {
     const room = rooms[roomName];
     currentRoom = roomName;
 
-    // Speaker nameplate
+    // Speaker name
     const speakerNameDiv = document.getElementById("speaker-name");
     if (room.speaker && room.speaker.length > 0) {
       speakerNameDiv.innerText = room.speaker;
@@ -251,26 +122,25 @@ document.addEventListener("DOMContentLoaded", function() {
       speakerNameDiv.style.display = "none";
     }
 
-    // Show/hide inventory toggle
-    if (inventory.length > 0 && !["StartScreen", "DriveIntro", "HotelLobby", "ClerkInteraction"].includes(currentRoom)) {
-      document.getElementById("inventory-toggle").style.display = "flex";
+    // Background image
+    document.getElementById("background").style.backgroundImage = `url('${room.background || "image1"}')`;
+
+    // Sprite
+    const spriteImg = document.getElementById("sprite");
+    if (room.sprite && room.sprite.length > 0) {
+      spriteImg.src = room.sprite;
+      spriteImg.style.display = "block";
     } else {
-      document.getElementById("inventory-toggle").style.display = "none";
+      spriteImg.style.display = "none";
     }
 
-    // Optional: Key-required logic for choices
-    if (room.choices) {
-      room.choices.forEach(choice => {
-        if (choice.keyRequired && !inventory.some(item => item.name === choice.keyRequired)) {
-          choice.disabled = true;
-          choice.text += " (Key required)";
-        }
-      });
-    }
+    // Inventory modal (optional, invoke elsewhere if needed)
+    // document.getElementById("inventory").style.display = inventory.length > 0 ? "block" : "none";
 
+    // Choices logic
     if (room.onEnter) room.onEnter();
 
-    // Choices now inside textbox
+    // Choices in VN textbox
     const choicesDiv = document.getElementById("choices");
     choicesDiv.innerHTML = "";
 
@@ -281,7 +151,6 @@ document.addEventListener("DOMContentLoaded", function() {
       room.choices.forEach(choice => {
         const btn = document.createElement("button");
         btn.innerText = choice.text;
-        btn.disabled = choice.disabled || false;
         btn.onclick = () => {
           if (!isTyping) renderRoom(choice.next);
         };
