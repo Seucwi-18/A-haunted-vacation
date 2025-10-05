@@ -17,13 +17,15 @@ body {
 }
 
 .scene-image {
-  width: auto;          /* keeps the natural width */
-  max-width: 100%;      /* prevents overflow */
-  height: auto;         /* keeps proportions */
+  width: 100%;         /* fill the container width */
+  max-width: 500px;    /* cap the size */
+  height: auto;        /* keep aspect ratio */
   border: 2px solid #444;
   display: block;
-  margin: 0 auto;       /* centers it inside container */
+  margin: 0 auto;      /* center */
+  object-fit: contain; /* ensures it won't stretch */
 }
+
 
 
 
