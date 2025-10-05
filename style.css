@@ -17,17 +17,14 @@ body {
 }
 
 .scene-image {
-  width: 100%;         /* fill the container width */
-  max-width: 500px;    /* cap the size */
-  height: auto;        /* keep aspect ratio */
+  max-width: 500px;       /* never wider than 500px */
+  max-height: 60vh;       /* never taller than 60% of viewport */
+  width: auto;            /* scale proportionally */
+  height: auto;           /* scale proportionally */
   border: 2px solid #444;
   display: block;
-  margin: 0 auto;      /* center */
-  object-fit: contain; /* ensures it won't stretch */
+  margin: 0 auto;         /* center it */
 }
-
-
-
 
 .text-box {
   margin-top: 20px;
