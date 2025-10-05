@@ -18,12 +18,13 @@ body {
 
 .scene-image {
   width: 100%;
-  max-height: 300px;   /* Shrinks image to fit */
-  object-fit: contain; /* Keeps whole image visible */
+  height: 300px;        /* Forces it to fit the same visual height */
+  object-fit: contain;  /* Keeps the full image visible */
   border: 2px solid #444;
   display: block;
-  background-color: #000; /* Fills blank space if aspect ratio is different */
+  background-color: #000;
 }
+
 
 .text-box {
   margin-top: 20px;
