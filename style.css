@@ -17,13 +17,14 @@ body {
 }
 
 .scene-image {
-  width: 400px;
-  height: 300px;        /* Forces it to fit the same visual height */
-  object-fit: contain;  /* Keeps the full image visible */
+  width: auto;          /* keeps the natural width */
+  max-width: 100%;      /* prevents overflow */
+  height: auto;         /* keeps proportions */
   border: 2px solid #444;
   display: block;
-  background-color: #000;
+  margin: 0 auto;       /* centers it inside container */
 }
+
 
 
 .text-box {
