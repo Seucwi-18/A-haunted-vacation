@@ -1,3 +1,4 @@
+/* Base styles */
 body {
   margin: 0;
   background-color: #000;
@@ -6,34 +7,59 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* Container */
 .container {
-  width: 90%;
+  width: 100%;
   max-width: 900px;
-  margin-top: 40px;
   text-align: left;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* space between elements */
 }
 
+/* Image */
 .scene-image {
-  max-width: 500px;       /* never wider than 500px */
-  max-height: 60vh;       /* never taller than 60% of viewport */
-  width: auto;            /* scale proportionally */
-  height: auto;           /* scale proportionally */
-  border: 2px solid #444;
   display: block;
-  margin: 0 auto;         /* center it */
+  width: 100%;          /* fills container width */
+  max-width: 500px;     /* caps size on large screens */
+  max-height: 60vh;     /* prevents it from taking over the screen height */
+  height: auto;
+  border: 2px solid #444;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
+/* Text box */
 .text-box {
-  margin-top: 20px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.5;
   white-space: pre-wrap;
 }
 
+/* Prompt */
 .prompt {
-  margin-top: 10px;
-  font-size: 22px;
+  font-size: 20px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+  .text-box {
+    font-size: 16px;
+  }
+  .prompt {
+    font-size: 18px;
+  }
+  .scene-image {
+    max-width: 100%;
+    max-height: 50vh;
+  }
 }
