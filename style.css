@@ -17,7 +17,7 @@ body {
 }
 
 .scene-image {
-  width: 100%;
+  width: 400px;
   height: 300px;        /* Forces it to fit the same visual height */
   object-fit: contain;  /* Keeps the full image visible */
   border: 2px solid #444;
