@@ -18,11 +18,13 @@ body {
 
 .scene-image {
   width: 100%;
-  height: 300px;           /* Fixed height like the placeholder */
-  object-fit: cover;       /* Crops the extra parts neatly */
+  max-height: 300px;   /* Scales instead of cropping */
+  object-fit: contain;
   border: 2px solid #444;
   display: block;
+  background-color: #000; /* Fills space if needed */
 }
+
 
 
 .text-box {
